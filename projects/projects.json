@@ -1,24 +1,25 @@
 [
   {
+    "name": "Expense Tracker",
+    "desc": "",
+    "image": "expense",
+    "category": "MERN",
+    "links": {
+      "view": "https://expense-tracker-tau-pearl-78.vercel.app/",
+      "code": "https://github.com/kushang3092/expense-tracker"
+    }
+  },
+  {
     "name": "E-Challan System",
     "desc": "",
     "image": "challan",
     "category": "MERN",
     "links": {
-      "view": "https://662250873721d6c2653dbd43--singular-sprinkles-a2c4bf.netlify.app",
-      "code": "https://docs.google.com/document/d/1_J8U3jITBLGka_CzMe5XyIo0OorheylceNnXL5zdajM/edit?usp=sharing"
+      "view": "https://662250873721d6c2653dbd43--singular-sprinkles-a2c4bf.netlify.app"
+      
     }
   },
-  {
-    "name": "Time and Work Tracking System",
-    "desc": "",
-    "image": "t&w",
-    "category": "MERN",
-    "links": {
-      "view": "#",
-      "code": "https://github.com/KushangJari3092/Time-Work-Tracking-System"
-    }
-  },
+  
   {
     "name": "To-Do Application",
     "desc": "",
@@ -29,16 +30,7 @@
       "code": "https://github.com/KushangJari3092/To-Do"
     }
   },
-  {
-    "name": "News App",
-    "desc": "",
-    "image": "news",
-    "category": "React",
-    "links": {
-      "view": "https://to-do-kush.netlify.app/",
-      "code": "https://github.com/KushangJari3092/NewsApp-infinite-scroll"
-    }
-  },
+  
   {
     "name": "Quiz Application",
     "desc": "",

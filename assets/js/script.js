@@ -1,3 +1,109 @@
+const FALLBACK_SKILLS = [
+    { "name": "HTML5", "icon": "https://img.icons8.com/color/48/000000/html-5--v1.png" },
+    { "name": "CSS3", "icon": "https://img.icons8.com/color/48/000000/css3.png" },
+    { "name": "JavaScript", "icon": "https://img.icons8.com/color/48/000000/javascript--v1.png" },
+    { "name": "TypeScript", "icon": "https://img.icons8.com/color/48/000000/typescript.png" },
+    { "name": "ReactJS", "icon": "https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/000000/external-react-a-javascript-library-for-building-user-interfaces-logo-color-tal-revivo.png" },
+    { "name": "NextJS", "icon": "https://img.icons8.com/color/48/000000/nextjs.png" },
+    { "name": "Material UI", "icon": "https://img.icons8.com/color/48/000000/material-ui.png" },
+    { "name": "NodeJS", "icon": "https://img.icons8.com/color/48/000000/nodejs.png" },
+    { "name": "ExpressJS", "icon": "https://img.icons8.com/fluency/48/000000/node-js.png" },
+    { "name": "Redux", "icon": "https://img.icons8.com/color/48/000000/redux.png" },
+    { "name": "MongoDB", "icon": "https://img.icons8.com/color/48/000000/mongodb.png" },
+    { "name": "PostgreSQL", "icon": "https://img.icons8.com/?size=50&id=Pv4IGT0TSpt8&format=png&color=000000" },
+    { "name": "REST APIs", "icon": "https://img.icons8.com/?size=50&id=1oWQWS6qrHe3&format=png&color=000000" },
+    { "name": "WebSockets", "icon": "https://img.icons8.com/?size=50&id=106729&format=png&color=000000" },
+    { "name": "AWS", "icon": "https://img.icons8.com/?size=50&id=wU62u24brJ44&format=png&color=000000" },
+    { "name": "GitHub", "icon": "https://img.icons8.com/glyph-neue/48/ffffff/github.png" },
+    { "name": "Agentic AI", "icon": "https://img.icons8.com/?size=50&id=ETVUfl0Ylh1p&format=png&color=000000" },
+    { "name": "Claude Code", "icon": "https://img.icons8.com/?size=50&id=kDfpmWz6OSCQ&format=png&color=000000" }
+];
+
+const FALLBACK_PROJECTS = [
+    { "name": "Expense Tracker", "desc": "Track daily expenses with a MERN stack dashboard.", "image": "expense", "category": "MERN", "links": { "view": "https://expense-tracker-tau-pearl-78.vercel.app/", "code": "https://github.com/kushang3092/expense-tracker" } },
+    { "name": "E-Challan System", "desc": "Digital challan workflow for issuing and viewing fines.", "image": "challan", "category": "MERN", "links": { "view": "https://662250873721d6c2653dbd43--singular-sprinkles-a2c4bf.netlify.app" } },
+    { "name": "To-Do Application", "desc": "React to-do app for adding, completing, and clearing tasks.", "image": "todo", "category": "React", "links": { "view": "https://to-do-kush.netlify.app/", "code": "https://github.com/KushangJari3092/To-Do" } },
+    { "name": "Quiz Application", "desc": "TypeScript quiz app with scored questions and results.", "image": "quiz", "category": "React-TS", "links": { "view": "https://quizz-application-kushang.netlify.app/", "code": "https://github.com/KushangPJariwala/Quiz-application-Kushang-typescript" } },
+    { "name": "Omny Food", "desc": "Food ordering site built with HTML, CSS, and JavaScript.", "image": "food", "category": "HTML-CSS-JS", "links": { "view": "https://omnyfood-kush.netlify.app", "code": "https://github.com/KushangPJariwala/omnyfood" } }
+];
+
+function showSkills(skills) {
+    const skillsContainer = document.getElementById("skillsContainer");
+    if (!skillsContainer || !Array.isArray(skills)) return;
+    skillsContainer.innerHTML = skills.map(skill => `
+        <div class="bar">
+            <div class="info">
+                <img src="${skill.icon}" alt="${skill.name}" />
+                <span>${skill.name}</span>
+            </div>
+        </div>`).join("");
+}
+
+function showProjects(projects) {
+    const projectsContainer = document.querySelector("#work .box-container");
+    if (!projectsContainer || !Array.isArray(projects)) return;
+    const cards = projects
+        .filter(project => project && project.category !== "android")
+        .slice(0, 10)
+        .map(project => {
+            const links = project.links || {};
+            const viewBtn = links.view
+                ? `<a href="${links.view}" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-eye"></i> View</a>`
+                : "";
+            const codeBtn = links.code
+                ? `<a href="${links.code}" class="btn" target="_blank" rel="noopener noreferrer">Code <i class="fas fa-code"></i></a>`
+                : "";
+            const description = project.desc || "";
+            return `
+        <div class="box tilt">
+            <img draggable="false" src="./assets/images/projects/${project.image}.png" alt="${project.name}" />
+            <div class="content">
+                <div class="tag">
+                    <h3>${project.name}</h3>
+                </div>
+                <div class="desc">
+                    <p>${description}</p>
+                    <div class="btns">
+                        ${viewBtn}
+                        ${codeBtn}
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        }).join("");
+    projectsContainer.innerHTML = cards;
+
+    if (window.VanillaTilt) {
+        VanillaTilt.init(document.querySelectorAll(".tilt"), { max: 15 });
+    }
+}
+
+function renderPortfolio(skills, projects) {
+    showSkills(skills);
+    showProjects(projects);
+}
+
+renderPortfolio(FALLBACK_SKILLS, FALLBACK_PROJECTS);
+
+async function refreshPortfolioFromJson() {
+    try {
+        const [skillsResponse, projectsResponse] = await Promise.all([
+            fetch("./skills.json"),
+            fetch("./projects/projects.json")
+        ]);
+        const skills = skillsResponse.ok ? await skillsResponse.json() : FALLBACK_SKILLS;
+        const projects = projectsResponse.ok ? await projectsResponse.json() : FALLBACK_PROJECTS;
+        renderPortfolio(
+            Array.isArray(skills) ? skills : FALLBACK_SKILLS,
+            Array.isArray(projects) ? projects : FALLBACK_PROJECTS
+        );
+    } catch (error) {
+        renderPortfolio(FALLBACK_SKILLS, FALLBACK_PROJECTS);
+    }
+}
+
+refreshPortfolioFromJson();
+
 $(document).ready(function () {
 
     $('#menu').click(function () {
@@ -56,22 +162,9 @@ $(document).ready(function () {
 
 });
 
-document.addEventListener('visibilitychange',
-    function () {
-        if (document.visibilityState === "visible") {
-            document.title = "Portfolio | Jigar Sable";
-            $("#favicon").attr("href", "assets/images/favicon.png");
-        }
-        else {
-            document.title = "Come Back To Portfolio";
-            $("#favicon").attr("href", "assets/images/favhand.png");
-        }
-    });
-
-
 // <!-- typed js effect starts -->
 var typed = new Typed(".typing-text", {
-    strings: ["frontend development", "backend development", "web designing", "web development"],
+    strings: ["Web Development", "Full-Stack Development","Frontend Development", "Backend Development" ],
     loop: true,
     typeSpeed: 50,
     backSpeed: 25,
@@ -79,85 +172,12 @@ var typed = new Typed(".typing-text", {
 });
 // <!-- typed js effect ends -->
 
-async function fetchData(type = "skills") {
-    let response
-    type === "skills" ?
-        response = await fetch("skills.json")
-        :
-        response = await fetch("./projects/projects.json")
-    const data = await response.json();
-    return data;
-}
-
-function showSkills(skills) {
-    let skillsContainer = document.getElementById("skillsContainer");
-    let skillHTML = "";
-    skills.forEach(skill => {
-        skillHTML += `
-        <div class="bar">
-              <div class="info">
-                <img src=${skill.icon} alt="skill" />
-                <span>${skill.name}</span>
-              </div>
-            </div>`
-    });
-    skillsContainer.innerHTML = skillHTML;
-}
-
-function showProjects(projects) {
-    let projectsContainer = document.querySelector("#work .box-container");
-    let projectHTML = "";
-    projects.slice(0, 10).filter(project => project.category != "android").forEach(project => {
-        projectHTML += `
-        <div class="box tilt">
-      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="project" />
-      <div class="content">
-        <div class="tag">
-        <h3>${project.name}</h3>
-        </div>
-        <div class="desc">
-          <p>${project.desc}</p>
-          <div class="btns">
-            <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>`
-    });
-    projectsContainer.innerHTML = projectHTML;
-
-    // <!-- tilt js effect starts -->
+// <!-- tilt js effect starts -->
+if (window.VanillaTilt) {
     VanillaTilt.init(document.querySelectorAll(".tilt"), {
         max: 15,
     });
-    // <!-- tilt js effect ends -->
-
-    /* ===== SCROLL REVEAL ANIMATION ===== */
-    const srtop = ScrollReveal({
-        origin: 'top',
-        distance: '80px',
-        duration: 1000,
-        reset: true
-    });
-
-    /* SCROLL PROJECTS */
-    srtop.reveal('.work .box', { interval: 200 });
-
 }
-
-fetchData().then(data => {
-    showSkills(data);
-});
-
-fetchData("projects").then(data => {
-    showProjects(data);
-});
-
-// <!-- tilt js effect starts -->
-VanillaTilt.init(document.querySelectorAll(".tilt"), {
-    max: 15,
-});
 // <!-- tilt js effect ends -->
 
 
@@ -208,7 +228,7 @@ const srtop = ScrollReveal({
     origin: 'top',
     distance: '80px',
     duration: 1000,
-    reset: true
+    reset: false
 });
 
 /* SCROLL HOME */
@@ -221,7 +241,7 @@ srtop.reveal('.home .linkedin', { interval: 600 });
 srtop.reveal('.home .github', { interval: 800 });
 srtop.reveal('.home .twitter', { interval: 1000 });
 srtop.reveal('.home .telegram', { interval: 600 });
-srtop.reveal('.home .instagram', { interval: 600 });
+srtop.reveal('.home .email', { interval: 600 });
 srtop.reveal('.home .dev', { interval: 600 });
 
 /* SCROLL ABOUT */
@@ -232,19 +252,12 @@ srtop.reveal('.about .content .box-container', { delay: 200 });
 srtop.reveal('.about .content .resumebtn', { delay: 200 });
 
 
-/* SCROLL SKILLS */
-srtop.reveal('.skills .container', { interval: 200 });
-srtop.reveal('.skills .container .bar', { delay: 400 });
-
 /* SCROLL EDUCATION */
 srtop.reveal('.education .box', { interval: 200 });
 
-/* SCROLL PROJECTS */
-srtop.reveal('.work .box', { interval: 200 });
-
 /* SCROLL EXPERIENCE */
 srtop.reveal('.experience .timeline', { delay: 400 });
-srtop.reveal('.experience .timeline .container', { interval: 400 });
+srtop.reveal('.experience .exp-item', { interval: 300 });
 
 /* SCROLL CONTACT */
 srtop.reveal('.contact .container', { delay: 400 });

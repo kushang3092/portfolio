@@ -224,6 +224,15 @@ header .navbar ul li a:hover {
 .home .image img:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
+@media (max-width: 768px) {
+  .home {
+    align-items: flex-start;
+    padding-top: 9rem;
+  }
+  .home .image {
+    display: none;
+  }
+}
 .home .content h2 {
   font-size: 5rem;
   font-weight: 800;
@@ -246,9 +255,14 @@ header .navbar ul li a:hover {
   font-weight: 600;
   padding: 1rem 0;
 }
-.home .btn {
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   margin-top: 1rem;
-  position: absolute;
+}
+.home .btn {
+  position: relative;
   line-height: 0;
   padding: 1.6rem 3rem;
   border-radius: 4em;
@@ -277,7 +291,7 @@ header .navbar ul li a:hover {
 /* social icons start */
 .socials {
   position: relative;
-  margin-top: 9rem;
+  margin-top: 2rem;
 }
 .socials .social-icons {
   padding-left: 0;
@@ -321,21 +335,18 @@ header .navbar ul li a:hover {
 .social-icons a.dev:hover {
   background-color: #070707;
 }
-.social-icons a.instagram:hover {
-  background-color: #ee00da;
+.social-icons a.email:hover {
+  background-color: #ea4335;
 }
 /* social icons end */
 
 /* hero media queries starts*/
 @media (max-width: 450px) {
   .home .btn {
-    margin: 4rem 0;
+    margin: 0;
   }
   .socials {
-    margin-top: 12rem;
-  }
-  .home .image img {
-    margin-top: -12rem;
+    margin-top: 2rem;
   }
   .home .content p {
     font-size: 2.2rem;
@@ -368,7 +379,7 @@ header .navbar ul li a:hover {
   height: auto;
   border-radius: 5%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6);
-  mix-blend-mode: luminosity;
+  /* mix-blend-mode: luminosity; */
   transition: 0.3s;
   cursor: pointer;
 }
@@ -444,7 +455,8 @@ header .navbar ul li a:hover {
   }
   .about .row .image img {
     margin: 0 auto;
-    width: 80%;
+    width: 65%;
+    max-width: 24rem;
     mix-blend-mode: normal;
   }
   .about .row {
@@ -516,16 +528,34 @@ header .navbar ul li a:hover {
   margin-left: 0.5rem;
 }
 /* skills media queries starts*/
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .skills .container {
     padding: 0;
     margin: 0;
   }
   .skills .container .row {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: 1rem;
-    padding: 2rem 0.2rem 2rem 0.2rem;
-    gap: 1rem;
+    padding: 1.5rem 0.2rem;
+    gap: 0.7rem;
+  }
+  .skills .container .bar {
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .skills .container .bar .info {
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .skills .container .bar .info img {
+    width: 3.2rem;
+    height: 3.2rem;
+    object-fit: contain;
+  }
+  .skills .container .bar .info span {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    text-align: center;
   }
   .skills .container {
     margin-top: 5px;
@@ -645,10 +675,10 @@ header .navbar ul li a:hover {
 /* work section starts */
 .work {
   /* background: #010124; */
-  background: linear-gradient(to bottom, #000031, #00002c);
+  background: linear-gradient(to bottom, #fbfbfb, #dcdcdc 60%, rgba(170, 170, 170, 0.15));
 }
 .work h2 {
-  color: #fff;
+  color: #3d3d3d;
   padding: 1rem;
 }
 .work .heading span {
@@ -763,101 +793,242 @@ header .navbar ul li a:hover {
 /* work section ends */
 
 /* experience section starts */
+.experience {
+  min-height: 70vh;
+  padding-bottom: 8rem;
+}
+.experience .exp-sub {
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  color: #4b4b63;
+  margin-top: 0.8rem;
+  text-transform: none;
+}
 .experience .timeline {
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 98rem;
+  margin: 5rem auto 0;
+  padding-left: 8rem;
 }
-.experience .timeline::after {
+/* vertical line */
+.experience .timeline::before {
   content: "";
   position: absolute;
-  width: 6px;
-  background: #020133;
+  left: 2.1rem;
+  top: 2rem;
+  bottom: 2rem;
+  width: 0.4rem;
+  border-radius: 1rem;
+  background: linear-gradient(to bottom, #4a00e0, #57059e 60%, rgba(87, 5, 158, 0.15));
+}
+.experience .exp-item {
+  position: relative;
+  margin-bottom: 4rem;
+}
+.experience .exp-item:last-child {
+  margin-bottom: 0;
+}
+/* node on the line */
+.experience .exp-node {
+  position: absolute;
+  left: -8rem;
+  top: 1.2rem;
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #57059e, #4a00e0);
+  color: #fff;
+  font-size: 1.9rem;
+  border: 0.5rem solid #f7f7f7;
+  box-shadow: 0 0.4rem 1.2rem rgba(74, 0, 224, 0.45);
+  z-index: 2;
+}
+.experience .exp-item.current .exp-node {
+  animation: expPulse 2.2s ease-out infinite;
+}
+@keyframes expPulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 0, 224, 0.5); }
+  70% { box-shadow: 0 0 0 1.6rem rgba(74, 0, 224, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 0, 224, 0); }
+}
+/* card */
+.experience .exp-card {
+  position: relative;
+  background: #fff;
+  border-radius: 1.2rem;
+  padding: 2.4rem 2.8rem 2.6rem;
+  box-shadow: 0.2rem 0.5rem 1.4rem rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  text-transform: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+/* global "* { text-transform: capitalize }" would otherwise capitalize every word */
+.experience .exp-card *,
+.experience .exp-sub {
+  text-transform: none;
+}
+.experience .exp-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
   top: 0;
   bottom: 0;
-  left: 50%;
-  margin-left: -3px;
-  z-index: -2;
+  width: 0.6rem;
+  background: linear-gradient(to bottom, #57059e, #4a00e0);
 }
-.experience .container {
-  padding: 10px 40px;
-  position: relative;
-  background-color: inherit;
-  width: 50%;
+.experience .exp-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0.6rem 1rem 2.4rem rgba(74, 0, 224, 0.25);
 }
-/*circles on timeline*/
-.experience .container::after {
-  content: "\f0b1";
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  right: -17px;
-  background-color: rgb(255, 255, 255);
-  border: 4px solid #ff9f55;
-  top: 15px;
-  border-radius: 50%;
-  z-index: 100;
-  font-size: 1.89rem;
-  text-align: center;
+.experience .exp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.2rem 2rem;
+}
+.experience .exp-role {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #012970;
+  line-height: 1.2;
+}
+.experience .exp-company {
+  margin-top: 0.6rem;
+  font-size: 1.7rem;
   font-weight: 600;
-  color: #02094b;
-  font-family: "Font Awesome\ 5 Free";
+  font-family: "Nunito", sans-serif;
+  color: #4a00e0;
 }
-.experience .left {
-  left: 0;
-}
-.experience .right {
-  left: 50%;
-}
-/* arrows pointing right */
-.experience .left::before {
-  content: " ";
-  height: 0;
-  position: absolute;
-  top: 22px;
-  width: 0;
-  z-index: 1;
-  right: 30px;
-  border: medium solid #f68c09;
-  border-width: 10px 0 10px 10px;
-  border-color: transparent transparent transparent #f68c09;
-}
-/* arrows pointing left  */
-.experience .right::before {
-  content: " ";
-  height: 0;
-  position: absolute;
-  top: 22px;
-  width: 0;
-  z-index: 1;
-  left: 30px;
-  border: medium solid #f68c09;
-  border-width: 10px 10px 10px 0;
-  border-color: transparent #f68c09 transparent transparent;
-}
-.experience .right::after {
-  left: -16px;
-}
-.experience .content {
-  background-color: #f68c09;
-  position: relative;
-  border-radius: 6px;
-}
-.experience .content .tag {
-  font-size: 1.3rem;
-  padding-top: 1.5rem;
-  padding-left: 1.5rem;
-}
-.experience .content .desc {
-  margin-left: 1.5rem;
-  padding-bottom: 1rem;
-}
-.experience .content .desc h3 {
+.experience .exp-company i {
+  margin-right: 0.5rem;
   font-size: 1.5rem;
-  font-weight: 600;
 }
-.experience .content .desc p {
+.experience .exp-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+.experience .exp-date,
+.experience .exp-loc {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #4b4b63;
+  white-space: nowrap;
+}
+.experience .exp-date {
+  background: #e8ebff;
+  color: #2506ad;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2rem;
+}
+.experience .exp-date i,
+.experience .exp-loc i {
+  margin-right: 0.5rem;
+}
+.experience .exp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  color: #1c7c3b;
+  background: #e3f7ea;
+  padding: 0.3rem 1rem;
+  border-radius: 2rem;
+}
+.experience .exp-badge .dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: #21b04b;
+  animation: expBlink 1.4s ease-in-out infinite;
+}
+@keyframes expBlink {
+  50% { opacity: 0.25; }
+}
+/* stat chips */
+.experience .exp-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 2rem;
+}
+.experience .exp-stats .stat {
+  flex: 1 1 15rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, #57059e, #4a00e0);
+  color: #fff;
+  box-shadow: 0 0.4rem 1rem rgba(74, 0, 224, 0.3);
+}
+.experience .exp-stats .stat strong {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #ffe600;
+  line-height: 1;
+}
+.experience .exp-stats .stat span {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+/* bullet points */
+.experience .exp-points {
+  list-style: none;
+  margin-top: 2rem;
+}
+.experience .exp-points li {
+  position: relative;
+  padding-left: 2.2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  line-height: 1.65;
+  color: #2f2f45;
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+}
+.experience .exp-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #57059e, #4a00e0);
+}
+/* tech tags */
+.experience .exp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.8rem;
+  padding-top: 1.8rem;
+  border-top: 0.1rem dashed rgba(74, 0, 224, 0.25);
+}
+.experience .exp-tags span {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2506ad;
+  background: #e8ebff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2rem;
+  transition: 0.2s;
+}
+.experience .exp-tags span:hover {
+  background: #4a00e0;
+  color: #fff;
 }
 /* view all button */
 .morebtn {
@@ -892,39 +1063,40 @@ header .navbar ul li a:hover {
   transform: translateX(5px);
 }
 
-/* Media queries - Responsive timeline on screens less than 600px wide */
+/* Responsive timeline */
+@media screen and (max-width: 768px) {
+  .experience .exp-meta {
+    align-items: flex-start;
+  }
+}
 @media screen and (max-width: 600px) {
   .experience {
-    min-height: 80vh;
+    min-height: 60vh;
   }
   .experience .timeline {
-    margin-top: 2rem;
+    margin-top: 3rem;
+    padding-left: 5rem;
   }
-  .experience .timeline::after {
-    left: 31px;
+  .experience .timeline::before {
+    left: 1.1rem;
+    width: 0.3rem;
   }
-  .experience .container {
-    width: 100%;
-    padding-left: 8rem;
-    padding-right: 2rem;
+  .experience .exp-node {
+    left: -5rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    font-size: 1.4rem;
+    border-width: 0.4rem;
+    top: 1rem;
   }
-  .experience .container::after {
-    font-size: 2.2rem;
+  .experience .exp-card {
+    padding: 2rem 1.6rem 2.2rem 2rem;
   }
-  .experience .container::before {
-    left: 61px;
-    border: medium solid #f68c09;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent #f68c09 transparent transparent;
+  .experience .exp-role {
+    font-size: 2.1rem;
   }
-  .experience .left::after {
-    left: 15px;
-  }
-  .experience .right::after {
-    left: 15px;
-  }
-  .experience .right {
-    left: 0%;
+  .experience .exp-points li {
+    font-size: 1.4rem;
   }
   .morebtn {
     margin-top: 3rem;
